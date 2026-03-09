@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="180" viewBox="0 0 720 180" preserveAspectRatio="xMidYMid meet">
+  <!-- Monochrome film-play logo: play triangle with small film reels -->
+  <defs>
+    <style>
+      .word{font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-weight:800; fill:#ffffff}
+      .tag{font-size:12px; fill:#c2c7cc}
+    </style>
+  </defs>
+
+  <!-- Left: play triangle -->
+  <g transform="translate(24,20)">
+    <polygon points="0,0 0,140 120,70" fill="#ffffff" rx="6" />
+    <!-- inset triangle to suggest film-frame cut -->
+    <polygon points="12,12 12,128 102,70" fill="#0b1220" opacity="0.06" />
+
+    <!-- Reel 1 (top-left) -->
+    <g transform="translate(-10,-20)">
+      <circle cx="48" cy="48" r="26" fill="#0b1220" />
+      <circle cx="48" cy="48" r="12" fill="#ffffff" />
+      <g fill="#0b1220">
+        <circle cx="48" cy="36" r="4" />
+        <circle cx="60" cy="48" r="4" />
+        <circle cx="48" cy="60" r="4" />
+        <circle cx="36" cy="48" r="4" />
+      </g>
+    </g>
+
+    <!-- Reel 2 (small) -->
+    <g transform="translate(72,-6)">
+      <circle cx="48" cy="48" r="16" fill="#0b1220" />
+      <circle cx="48" cy="48" r="7" fill="#ffffff" />
+      <g fill="#0b1220">
+        <circle cx="48" cy="40" r="2.8" />
+        <circle cx="56" cy="48" r="2.8" />
+        <circle cx="48" cy="56" r="2.8" />
+        <circle cx="40" cy="48" r="2.8" />
+      </g>
+    </g>
+  </g>
+
+  <!-- Wordmark to the right (no tagline) -->
+  <g transform="translate(160,48)" fill="#ffffff">
+    <text class="word" x="0" y="44" font-size="64">CineSpark</text>
+  </g>
+
+</svg>

@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>CineSpark — Fund Short Films</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&display=swap" rel="stylesheet">
+  </head>
+  <body>
+    <header class="hero">
+      <div class="container">
+        <!-- Inline text-only SVG logo to use web font reliably -->
+        <svg class="logo" viewBox="0 0 800 180" role="img" aria-label="CineSpark logo">
+          <title>CineSpark</title>
+          <text class="logo-text" x="50%" y="58%" text-anchor="middle">CineSpark</text>
+        </svg>
+        <h1>
+          <span class="headline-line">Fund Your Short Film and Build Your Audiences</span>
+          <span class="headline-line headline-sub">Before You Shoot.</span>
+        </h1>
+        <button id="openFormBtn" class="cta">Submit your project</button>
+      </div>
+    </header>
+
+    <main>
+      <section class="explain container">
+        <h2>What is CineSpark?</h2>
+        <p>CineSpark is a platform where filmmakers pitch short film ideas and supporters help fund them before production. Supporters follow the filmmaking process and watch the film once it’s released.</p>
+        <p class="muted">This is a community-driven funding model for short films.</p>
+      </section>
+
+      <section id="submission" class="submission container" style="display:none">
+        <h2>Project Submission Form</h2>
+        <p class="note">Submit the form below. After submitting, click "Return to CineSpark" to go back.</p>
+        <p><button id="returnBtn" class="external-cta" style="display:none">Return to CineSpark</button></p>
+        <div id="formContainer" class="form-embed"></div>
+      </section>
+    </main>
+
+    <footer class="container foot">© CineSpark — Built for short films</footer>
+    <script>
+      (function(){
+      const formUrl = 'https://docs.google.com/forms/d/e/1FAIpQLSemc2as4I4NgKwemEodGv3kbcnGMGjFKUcdjGqb9C44XJ_Tcg/viewform?usp=preview';
+        const btn = document.getElementById('openFormBtn');
+        const submission = document.getElementById('submission');
+        const formContainer = document.getElementById('formContainer');
+        const hero = document.querySelector('.hero');
+      const explain = document.querySelector('.explain');
+
+        if(!btn || !submission || !formContainer) return;
+
+        btn.addEventListener('click', function(){
+          // embed the provided Google Forms preview link in-page
+          formContainer.innerHTML = '';
+          const iframe = document.createElement('iframe');
+          // use embedded view so the form is usable in an iframe
+          iframe.src = formUrl.indexOf('embedded=true') === -1 && formUrl.indexOf('viewform') !== -1 ? (formUrl + (formUrl.includes('?') ? '&' : '?') + 'embedded=true') : formUrl;
+          iframe.width = '100%';
+          iframe.height = '900';
+          iframe.frameBorder = '0';
+          iframe.title = 'CineSpark Submission Form';
+          iframe.allow = 'fullscreen';
+          iframe.style.border = '0';
+          iframe.style.borderRadius = '6px';
+          formContainer.appendChild(iframe);
+
+          // show return button (user can click after submitting)
+          const returnBtn = document.getElementById('returnBtn');
+          if(returnBtn) returnBtn.style.display = 'inline-block';
+
+          // hide hero/explain and show submission
+          if(explain) explain.style.display = 'none';
+          hero.style.display = 'none';
+          submission.style.display = 'block';
+
+          // best-effort auto-detection (may be blocked by cross-origin policy)
+          let checks = 0;
+          const maxChecks = 20; // stop after ~20s
+          const poll = setInterval(() => {
+            checks++;
+            try {
+              const href = iframe.contentWindow.location.href;
+              // If the URL includes formResponse or other confirmation markers
+              if(href && (href.indexOf('formResponse') !== -1 || href.toLowerCase().indexOf('submit') !== -1 || href.toLowerCase().indexOf('thank') !== -1)){
+                clearInterval(poll);
+                goHome();
+              }
+            } catch (e) {
+              // cross-origin; cannot read iframe location — fallback to manual return
+              if(checks >= maxChecks) clearInterval(poll);
+            }
+            if(checks >= maxChecks) clearInterval(poll);
+          }, 1000);
+
+          // return button handler
+          function goHome(){
+            // remove iframe content and show hero/explain
+            formContainer.innerHTML = '';
+            if(returnBtn) returnBtn.style.display = 'none';
+            if(explain) explain.style.display = 'block';
+            hero.style.display = 'block';
+            submission.style.display = 'none';
+            window.scrollTo({top:0, behavior:'smooth'});
+          }
+
+          if(returnBtn) returnBtn.addEventListener('click', goHome);
+        });
+      })();
+    </script>
+  </body>
+</html>
